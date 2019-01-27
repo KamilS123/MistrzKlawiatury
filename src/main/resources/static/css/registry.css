@@ -1,0 +1,30 @@
+body {
+    background-color: gray;
+    margin: 0;
+}
+
+h2 {
+    padding: 30px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    height: 50px;
+}
+
+#forms {
+
+    width: 300px;
+    height: 300px;
+    margin: auto auto auto auto;
+    background: gray;
+    text-align: center;
+    background-color: black;
+}
+
+#forms form input {
+    width: 250px;
+    height: 30px;
+    padding: 20px;
+    margin-top: 10px;
+}
