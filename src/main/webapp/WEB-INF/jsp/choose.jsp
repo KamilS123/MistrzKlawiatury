@@ -14,7 +14,7 @@
         <p>Wybierz rozmiar czcionki</p>
         <select id="fontSelect">
             <%
-                for (int i = 10; i <= 30; i++) {
+                for (int i = 1; i <= 5; i++) {
             %>
             <option value="<%=i%>"><%=i%></option>
             <%}%>

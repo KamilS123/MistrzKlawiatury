@@ -38,16 +38,15 @@
     </div>
 
     <h3>Wybrany tytul: <span style="color: red; font-size: 30px; font-weight: bold; background-color: lightslategrey; padding: 20px"><%--${tittle}--%> ${wybranyTytul} ${tittle}</span></h3>
-
+    <form method="post" action="summary">
     <div id="polaTextowe">
         <div id="wiersz">
-            <textarea id="textarea1" name="tarea" placeholder="Twoj wiersz"><%--${text}--%> ${wybranyWiersz} ${text}</textarea>
+            <textarea id="textarea1" name="tarea1" placeholder="Twoj wiersz"><%--${text}--%> ${wybranyWiersz} ${text}</textarea>
         </div>
         <div id="pisanie">
-            <textarea id="textarea2" name="tarea" placeholder="Pole do pisania"></textarea>
+            <textarea id="textarea2" name="tarea2" placeholder="Pole do pisania"></textarea>
         </div>
     </div>
-    <form>
         <input type="submit" value="Zakończ i zobacz wynik"/>
     </form>
 </div>
