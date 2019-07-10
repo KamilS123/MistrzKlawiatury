@@ -9,8 +9,8 @@ function countLetterFunction() {
     if (wierszWybrany.charAt(len - 1) !== event.key) {
      if (event.key === "Enter") {
          c = pisanyWiersz.slice(0,pisanyWiersz.length-5);
-            event.key = "\n ";
-        }
+         counter--;
+     }
         document.getElementById("textarea2").value = c;
         counter++;
         document.getElementById("hiddenCounter").value = counter;
