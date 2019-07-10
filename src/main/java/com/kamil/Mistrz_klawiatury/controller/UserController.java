@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -43,7 +45,7 @@ public class UserController {
 
     //odebranie z user.jsp w celu sprawdzenia czy dane logujacego sie znajduja sie w bazie danych
     @RequestMapping(value = "/checkData", method = RequestMethod.POST)
-    public String checkUserDetails(@RequestParam("nameLogin") String nameLogin, @RequestParam("surmaneLogin") String surmaneLogin, @RequestParam("passwordLogin") String passwordLogin, Model model, RedirectAttributes redirectAttributes) {
+    public String checkUserDetails(@RequestParam("nameLogin") String nameLogin, @RequestParam("surmaneLogin") String surmaneLogin, @RequestParam("passwordLogin") String passwordLogin, Model model,HttpServletResponse response) {
         //bierzemy całą baze danych do listy usersList
         List<Users> usersList = (List<Users>) usersRepository.findAll();
         List<Texts> textsList = (List<Texts>) textsRepository.findAll();
@@ -51,6 +53,7 @@ public class UserController {
         //iterujemy liste. Jeśli parametry sie zgadzają to przechodzimy to choose.jsp
         for (Users u : usersList) {
             if (u.getPassword().equals(passwordLogin) && u.getSurname().equals(surmaneLogin) && u.getusername().equals(nameLogin)) {
+                setCookie(response, nameLogin);
                 model.addAttribute("txt", textsList);
                 model.addAttribute("nameLogin", nameLogin);
                 return "choose";
@@ -75,5 +78,18 @@ public class UserController {
             }
         }
         return "";
+    }
+    @RequestMapping(value = "/main",method = RequestMethod.POST)
+    public String main(Model model) {
+        List<Texts> textsList = (List<Texts>) textsRepository.findAll();
+        model.addAttribute("txt", textsList);
+        return "choose";
+    }
+
+    public Cookie setCookie(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name,name);
+        cookie.setMaxAge(30*60);
+        response.addCookie(cookie);
+        return cookie;
     }
 }

@@ -20,9 +20,6 @@
             <%}%>
         </select>
     </div>
-
-
-
     <div id="rozpocznijBtn">
         <form action="/mainContent" method="post">
             <div id="radioBtn">

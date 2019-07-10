@@ -46,18 +46,4 @@ public class AppController {
         }
         return response.toString();
     }*/
-
-    /*// ukośnik mówi ze to bedzie  startowa metoda
-    @RequestMapping("hello")
-    //response body mówi ze zostanie zwrócone do przeglądarki ciało metody
-    @ResponseBody
-    public String mainPage() {
-        return "HelloWorld";
-    }
-
-    @RequestMapping("/login")
-    @ResponseBody
-    public String login() {
-        return "loguje";
-    }*/
 }
