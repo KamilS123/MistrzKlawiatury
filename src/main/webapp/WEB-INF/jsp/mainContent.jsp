@@ -4,6 +4,9 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="css/mainContent.css"/>
 </head>
+<style>
+
+</style>
 <body onload="timer()">
 <div id="container">
     <div id="header">
@@ -36,7 +39,7 @@
             </div>
 
             <button type="button" id="startButton"
-                    style="margin: 50px auto auto 40%; width: 150px; height: 150px; font-weight: bold"
+                    style="margin: 30px auto auto 40%; width: 150px; height: 150px; font-weight: bold"
                     onclick="timeStart();changeDisplay();changeFontSize();">START
             </button>
 

@@ -1,6 +1,7 @@
 body {
     background-color: gray;
     margin: 0;
+    text-align: center;
 }
 #summaryWindow {
     width: 300px;
