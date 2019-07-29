@@ -20,12 +20,12 @@
     </div>
 
     <h3>Wybrany tytul: <span
-            style="color: red; font-size: 30px; font-weight: bold; background-color: lightslategrey; padding: 20px">${tittle}${tittle}</span>
+            style="color: red; font-size: 30px; font-weight: bold; background-color: lightslategrey; padding: 20px">${userTittle}${tittle}</span>
     </h3>
     <form method="post" action="summary">
         <div id="polaTextowe">
             <div id="wiersz">
-                <textarea id="textarea1" name="tarea1" placeholder="Twoj wiersz">${txt}${text}</textarea>
+                <textarea id="textarea1" name="tarea1" placeholder="Twoj wiersz">${userTxt}${text}</textarea>
             </div>
             <div id="fontSizeParagraph">
                 <p>Wybierz rozmiar czcionki</p>

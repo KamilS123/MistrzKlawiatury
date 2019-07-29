@@ -55,8 +55,8 @@ public class UserController {
     public String sendToMyContent(@RequestParam("id") Long id, Model model) {
         Texts txt = userService.textsByValue(id);
         if (txt != null) {
-            model.addAttribute("tittle", txt.getTittle());
-            model.addAttribute("txt", txt.getText());
+            model.addAttribute("userTittle", txt.getTittle());
+            model.addAttribute("userTxt", txt.getText());
             return "mainContent";
         }
         logger.log(Level.INFO, "mainContent");
