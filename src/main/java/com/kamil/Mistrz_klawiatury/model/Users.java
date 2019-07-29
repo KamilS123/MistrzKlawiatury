@@ -1,6 +1,8 @@
 package com.kamil.Mistrz_klawiatury.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -10,13 +12,16 @@ public class Users {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
+    @NotBlank(message = "username mst be filled")
     private String username;
 
     @Column(name = "surname")
+    @NotBlank(message = "surname mst be filled")
     private String surname;
 
     @Column(name = "password")
+    @NotBlank(message = "password mst be filled")
     private String password;
 
 

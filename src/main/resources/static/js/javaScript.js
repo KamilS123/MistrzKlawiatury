@@ -32,6 +32,7 @@ function timeStart() {
 function changeDisplay() {
     document.getElementById("textarea2").style.visibility = "visible";
     document.getElementById("startButton").style.display = "none";
+    document.getElementById("finishButton").style.visibility = "visible";
 }
 
 function summaryDisplay() {
@@ -39,21 +40,26 @@ function summaryDisplay() {
 }
 
 function timer() {
-    var data = new Date();
+    let data = new Date();
 
-    var day = data.getDate();
-    var month = data.getMonth() + 1;
+    let day = data.getDate();
+    let month = data.getMonth() + 1;
     if (month < 10) month = "0" + month;
-    var year = data.getFullYear();
+    let year = data.getFullYear();
 
-    var hour = data.getHours();
+    let hour = data.getHours();
     if (hour < 10) hour = "0" + hour;
-    var minutes = data.getMinutes();
+    let minutes = data.getMinutes();
     if (minutes < 10) minutes = "0" + minutes;
-    var seconds = data.getSeconds();
+    let seconds = data.getSeconds();
     if (seconds < 10) seconds = "0" + seconds;
 
     document.getElementById("zegar").innerHTML = hour + ":" + minutes + ":" + seconds;
 
     setTimeout("timer()", 1000);
+}
+function changeFontSize(choosenfontSize) {
+    document.getElementById("textarea1").style.fontSize = choosenfontSize;
+    document.getElementById("textarea2").style.fontSize = choosenfontSize;
+    console.log("choosen" + choosenfontSize);
 }

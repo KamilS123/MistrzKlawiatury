@@ -21,7 +21,7 @@
         <td>${registryPassword}</td>
     </tr>
 </table>
-<form id="forma" action="/login" method="post">
+<form id="forma" action="/" method="post">
     <input type="submit" value="Powrot do logowania">
 </form>
 </div>

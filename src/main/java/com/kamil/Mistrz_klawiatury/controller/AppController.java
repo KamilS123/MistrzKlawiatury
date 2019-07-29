@@ -1,49 +1,44 @@
 package com.kamil.Mistrz_klawiatury.controller;
 
-import com.kamil.Mistrz_klawiatury.repository.TextsRepository;
-import com.kamil.Mistrz_klawiatury.repository.UsersRepository;
+import com.kamil.Mistrz_klawiatury.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-@RequestMapping("/")
-public class AppController {
-    //wstrzykiwanie UserRepository razem z metodami obsługujacymi bazy danych
-    @Autowired
-    private UsersRepository usersRepository;
-    @Autowired
-    private TextsRepository textsRepository;
+import javax.servlet.http.HttpServletRequest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    //przesyłanei do login.jsp
-    @RequestMapping("/login")
-    public String logi() {
+@Controller
+public class AppController {
+
+    private final Logger logger = Logger.getLogger(AppController.class.getName());
+    private final AppService appService;
+
+    @Autowired
+    public AppController(AppService appService) {
+        this.appService = appService;
+    }
+
+    //redirect to login.jsp
+    @RequestMapping("/")
+    public String login() {
+        logger.log(Level.INFO, "redirect to login");
         return "login";
     }
 
-    //przesylanie z login do registry.jsp
+    //redirect from login to registry.jsp
     @RequestMapping("/registry")
     public String sendToRegistry() {
+        logger.log(Level.INFO, "registry");
         return "registry";
     }
 
-    //przypadek se StringBuilderem który dodaje nowe stringi zamiast nadisywać
-    /*@RequestMapping("/addToDatabase")
-    @ResponseBody
-    public String testMethod() {
-        StringBuilder response = new StringBuilder();
-        String result = " ";
-
-        Users users = new Users()
-                .withName("Kamil")
-                .withSurname("Superson")
-                .withPassword("qwerty");
-        usersRepository.save(users);
-
-        for (Users u : usersRepository.findAll()) {
-            response.append(u).append("<br>");
-            result = u + "</br>";
-        }
-        return response.toString();
-    }*/
+    //logout
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        logger.log(Level.INFO, "logout");
+        return appService.cancelCookie(request);
+    }
 }
+

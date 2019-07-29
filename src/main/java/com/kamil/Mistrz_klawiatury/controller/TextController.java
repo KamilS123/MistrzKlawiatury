@@ -1,48 +1,44 @@
 package com.kamil.Mistrz_klawiatury.controller;
 
-import com.kamil.Mistrz_klawiatury.repository.TextsRepository;
-import com.kamil.Mistrz_klawiatury.repository.UsersRepository;
+
+import com.kamil.Mistrz_klawiatury.service.TextService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 @Controller
-@RequestMapping("/")
 public class TextController {
 
-    @Autowired
-    private UsersRepository usersRepository;
-    @Autowired
-    TextsRepository textsRepository;
+    private final Logger logger = Logger.getLogger(TextController.class.getName());
 
-    //pobiera jako parametr tytuł i text dodatkowego wiersza poza baza anych i przesyła to do mainContent.jsp
+    @Autowired
+    private TextService textService;
+
+    //fetch user tittle text and send it to mainContent.jsp
     @RequestMapping("/extraContent")
     public String sendExtraText(@RequestParam("tittle") String tittle, @RequestParam("text") String text, Model model) {
         model.addAttribute("tittle", tittle.trim());
         model.addAttribute("text", text.trim());
+        logger.log(Level.INFO, "extraContent");
         return "mainContent";
     }
 
+    //redirect to summary with scores with diffirent between end and start time
     @RequestMapping("/summary")
-    public String summary(HttpServletRequest request, @RequestParam("userSummmary")Integer counter, @RequestParam("hiddenTimer")Long hiddenTimer, Model model) {
-
-
-        Long currentTime = new Date().getTime();
-        Long miliseconds = currentTime - hiddenTimer;
-        Long minutes = miliseconds/1000/60;
-        Long seconds = (miliseconds/1000)%60;
-        String parsedTime = String.format("%d Minutes and %d Seconds",minutes,seconds);
-        model.addAttribute("counter","discrapency :" + counter);
-        model.addAttribute("endTime",parsedTime);
+    public String summary(@RequestParam("userSummmary") Integer counter, @RequestParam("hiddenTimer") Long hiddenTimer, Model model) {
+        String parsedTime = textService.endMinusStartTime(hiddenTimer);
+        if (counter == null) {
+            counter = 0;
+        }
+        model.addAttribute("counter", "discrapency :" + counter);
+        model.addAttribute("endTime", parsedTime);
+        logger.log(Level.INFO, "summary");
         return "summaryPage";
     }
 }

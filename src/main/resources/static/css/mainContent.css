@@ -4,7 +4,7 @@ body {
 }
 
 #container {
-    width: 700px;
+    width: 1000px;
     height: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -28,14 +28,17 @@ body {
 #textarea1
 {
     width: 100%;
-    height: 25%;
+    height: 40%;
     margin-top: 20px;
 }
 #textarea2
 {
     width: 100%;
     height: 25%;
-    margin-top: 15%;
+    margin-top: 5%;
+}
+#finishButton {
+    visibility: hidden;
 }
 #logo
 {
@@ -68,4 +71,21 @@ body {
     color: red;
     line-height: 30px;
     letter-spacing: 3px;
+}
+
+#fontSizeParagraph p {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}
+#logoutButton {
+    float:right;
+}
+#finishButton {
+    visibility: hidden;
+}
+.mainContentBtn {
+    background-color: lightgreen;
+    width: 200px;
+    height: 50px;
 }

@@ -1,6 +1,8 @@
 package com.kamil.Mistrz_klawiatury.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "texts")
@@ -12,9 +14,13 @@ public class Texts {
     private Long id;
 
     @Column(name = "tittle")
+    @NotBlank(message = "tittle must be filled")
+    @Size(max = 60)
     private String tittle;
 
     @Column(name = "text")
+    @NotBlank(message = "tittle must be filled")
+    @Size(max = 1000)
     private String text;
 
     public Texts() {

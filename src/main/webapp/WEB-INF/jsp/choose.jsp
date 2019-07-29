@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,26 +7,14 @@
     <link rel="stylesheet" type="text/css" href="css/choose.css"/>
 </head>
 <body>
-<h3 id="header">Czesc <span style="color: red; font-size: 65px">${nameLogin}</span></h3>
-
-
+<h3 id="header"><span style="color: red; font-size: 65px">Witaj w programie... ${nameLogin}</span></h3>
 <div id="containerLeft">
-    <div id="fontSizeParagraph">
-        <p>Wybierz rozmiar czcionki</p>
-        <select id="fontSelect">
-            <%
-                for (int i = 1; i <= 5; i++) {
-            %>
-            <option value="<%=i%>"><%=i%></option>
-            <%}%>
-        </select>
-    </div>
     <div id="rozpocznijBtn">
         <form action="/mainContent" method="post">
             <div id="radioBtn">
                 <p id="headerParagraph">Wybierz tekst do wyzwania</p>
                 <c:forEach items="${txt}" var="userElement">
-                    <div><input type="radio"  value="${userElement.getId()}" name="id">${userElement.getTittle()}</div>
+                    <div><input type="radio"  value="${userElement.getId()}" name="id" checked>${userElement.getTittle()} (${userElement.getText().length()} litery)</div>
                 </c:forEach>
             </div>
             <input type="submit" value="Rozpocznij">
@@ -34,6 +23,7 @@
 </div>
 
 <div id="containerRight">
+    <div id="rightInside">
     <p>Wklej swój tekst z którym bedziesz pracował...</p>
 
     <form method="post" action="/extraContent">
@@ -47,9 +37,11 @@
         </div>
     <input id="rightBtn" type="submit" value="Wybierz i przejdz dalej">
     </form>
+    </div>
 </div>
 <div style="clear: both"></div>
 
 
 </body>
+<script src="js/javaScript.js"></script>
 </html>

@@ -1,95 +1,74 @@
 package com.kamil.Mistrz_klawiatury.controller;
 
 import com.kamil.Mistrz_klawiatury.model.Texts;
-import com.kamil.Mistrz_klawiatury.model.Users;
 import com.kamil.Mistrz_klawiatury.repository.TextsRepository;
-import com.kamil.Mistrz_klawiatury.repository.UsersRepository;
+import com.kamil.Mistrz_klawiatury.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
-@RequestMapping("/")
 public class UserController {
 
-    @Autowired
-    private UsersRepository usersRepository;
-    @Autowired
-    TextsRepository textsRepository;
+    private final Logger logger = Logger.getLogger(UserController.class.getName());
 
-    //dodawanie nowego uzytkownika do bazy danych i przekierowanie do user.jsp
+    @Autowired
+    private TextsRepository textsRepository;
+
+    @Autowired
+    private UserService userService;
+
+    //add new user to database and redirect to user.jsp
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(@RequestParam("registryName") String registryName, @RequestParam("registrySurname") String registrySurname, @RequestParam("registryPassword") String registryPassword, Model model) {
-        //ustawia atrybuty przekazane do form w registry.jsp
+        userService.addNewUser(registryName, registrySurname, registryPassword);
         model.addAttribute("registryName", registryName);
         model.addAttribute("registrySurname", registrySurname);
         model.addAttribute("registryPassword", registryPassword);
-
-        //tworzenie nowego obiektu user przez pobranie z fornularza login.jsp danych
-        Users users = new Users()
-                .withName(registryName)
-                .withSurname(registrySurname)
-                .withPassword(registryPassword);
-        //zapis nowego uzytkownika do bazy danych przez wbudowaną metode save
-        usersRepository.save(users);
+        logger.log(Level.INFO, "addUser");
         return "user";
     }
 
-    //odebranie z user.jsp w celu sprawdzenia czy dane logujacego sie znajduja sie w bazie danych
+    //from user.jsp to check details in database
     @RequestMapping(value = "/checkData", method = RequestMethod.POST)
-    public String checkUserDetails(@RequestParam("nameLogin") String nameLogin, @RequestParam("surmaneLogin") String surmaneLogin, @RequestParam("passwordLogin") String passwordLogin, Model model,HttpServletResponse response) {
-        //bierzemy całą baze danych do listy usersList
-        List<Users> usersList = (List<Users>) usersRepository.findAll();
-        List<Texts> textsList = (List<Texts>) textsRepository.findAll();
-
-        //iterujemy liste. Jeśli parametry sie zgadzają to przechodzimy to choose.jsp
-        for (Users u : usersList) {
-            if (u.getPassword().equals(passwordLogin) && u.getSurname().equals(surmaneLogin) && u.getusername().equals(nameLogin)) {
-                setCookie(response, nameLogin);
-                model.addAttribute("txt", textsList);
-                model.addAttribute("nameLogin", nameLogin);
-                return "choose";
-            }
+    public String checkUserDetails(@RequestParam("nameLogin") String nameLogin, Model model, HttpServletResponse response, HttpServletRequest request) {
+        if (userService.userDetails(nameLogin, request, response) != null) {
+            model.addAttribute("nameLogin", nameLogin);
+            model.addAttribute("txt", textsRepository.findAll());
+            return "choose";
         }
+        logger.log(Level.INFO, "checkData");
         return "login";
     }
 
-    //wysyła z choose.jsp do mainContent.jsp
+    //choose.jsp to mainContent.jsp
     @RequestMapping(value = "/mainContent", method = RequestMethod.POST)
-    public String sendToMyContent(@RequestParam("id") String id, Model model) {
-        //parsuje pobrane id na long
-        Long longId = Long.parseLong(id);
-        //umieszcza cała baze obiektu Texts do listy testsList
-        List<Texts> textsList = (List<Texts>) textsRepository.findAll();
-        //iteruje po liście. Jęśli zawiera id to ustawia atrubuty
-        for (Texts texts : textsList) {
-            if (texts.getId().equals(longId)) {
-                model.addAttribute("wybranyWiersz", texts.getText());
-                model.addAttribute("wybranyTytul", texts.getTittle());
-                return "mainContent";
-            }
+    public String sendToMyContent(@RequestParam("id") Long id, Model model) {
+        Texts txt = userService.textsByValue(id);
+        if (txt != null) {
+            model.addAttribute("tittle", txt.getTittle());
+            model.addAttribute("txt", txt.getText());
+            return "mainContent";
         }
-        return "";
-    }
-    @RequestMapping(value = "/main",method = RequestMethod.POST)
-    public String main(Model model) {
-        List<Texts> textsList = (List<Texts>) textsRepository.findAll();
-        model.addAttribute("txt", textsList);
-        return "choose";
+        logger.log(Level.INFO, "mainContent");
+        return "redirect:/";
     }
 
-    public Cookie setCookie(HttpServletResponse response, String name) {
-        Cookie cookie = new Cookie(name,name);
-        cookie.setMaxAge(30*60);
-        response.addCookie(cookie);
-        return cookie;
+    @RequestMapping(value = "/main", method = RequestMethod.POST)
+    public String main(HttpSession session, HttpServletRequest request, Model model) {
+        String loggedUser = userService.loggedUserValue(session, request);
+        model.addAttribute("nameLogin", loggedUser);
+        model.addAttribute("txt", textsRepository.findAll());
+        logger.log(Level.INFO, "main");
+        return "choose";
     }
 }
