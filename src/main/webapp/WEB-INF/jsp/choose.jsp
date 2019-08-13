@@ -9,7 +9,7 @@
 <body>
 <h3 id="header"><span style="color: red; font-size: 65px">Witaj w programie... ${nameLogin}</span></h3>
 <div id="containerLeft">
-    <div id="rozpocznijBtn">
+    <div id="startingBtn">
         <form action="/mainContent" method="post">
             <div id="radioBtn">
                 <p id="headerParagraph">Wybierz tekst do wyzwania</p>

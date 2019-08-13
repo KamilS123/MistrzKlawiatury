@@ -1,14 +1,14 @@
 function countLetterFunction() {
-    let wierszWybrany = document.getElementById("textarea1").value;
-    let pisanyWiersz = document.getElementById("textarea2").value + "" + event.key;
-    let c = pisanyWiersz.slice(0, pisanyWiersz.length - 2);
-    let len = pisanyWiersz.length;
+    let choosenText = document.getElementById("textarea1").value;
+    let writtenText = document.getElementById("textarea2").value + "" + event.key;
+    let c = writtenText.slice(0, writtenText.length - 2);
+    let len = writtenText.length;
     let counter = document.getElementById("hiddenCounter").value;
 
 
-    if (wierszWybrany.charAt(len - 1) !== event.key) {
+    if (choosenText.charAt(len - 1) !== event.key) {
      if (event.key === "Enter") {
-         c = pisanyWiersz.slice(0,pisanyWiersz.length-5);
+         c = writtenText.slice(0,writtenText.length-5);
          counter--;
      }
         document.getElementById("textarea2").value = c;
@@ -16,11 +16,11 @@ function countLetterFunction() {
         document.getElementById("hiddenCounter").value = counter;
         document.getElementById("userSummmary").value = counter;
 
-        console.log("liter---" + event.key + "--- sie nie zgadza z--" + wierszWybrany.charAt(len - 1) + "--  które jest pod numerem " + wierszWybrany.indexOf(wierszWybrany.charAt(len - 1)));
+        console.log("liter---" + event.key + "--- sie nie zgadza z--" + choosenText.charAt(len - 1) + "--  które jest pod numerem " + choosenText.indexOf(choosenText.charAt(len - 1)));
         console.log("count length-----" + counter);
         document.getElementById("textarea2").style.backgroundColor = "red";
     } else {
-        console.log("litera ---" + event.key + "----zgadza sie z " + wierszWybrany.charAt(len - 1) + " które jest pod numerem " + wierszWybrany.indexOf(wierszWybrany.charAt(len - 1)));
+        console.log("litera ---" + event.key + "----zgadza sie z " + choosenText.charAt(len - 1) + " które jest pod numerem " + choosenText.indexOf(choosenText.charAt(len - 1)));
         document.getElementById("textarea2").style.backgroundColor = "white";
     }
 }

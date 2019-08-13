@@ -26,7 +26,6 @@ public class DBInitial implements CommandLineRunner {
     private void insertIntoDatabase(String tittle, String text) {
         Texts text1 = new Texts(tittle, text);
         List<Texts> textsList = (List<Texts>) textsRepository.findAll();
-
         Optional<Texts> alreadyExistInDatabase = textsList.stream()
                 .filter(s -> s.getText().equals(text))
                 .filter(s -> s.getTittle().equals(tittle))

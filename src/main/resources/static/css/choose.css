@@ -50,14 +50,14 @@ body {
     font-size: 20px;
     color: white;
 }
-#rozpocznijBtn
+#startingBtn
 {
 
     margin-top: 20px;
     padding: 10px;
 }
 
-#rozpocznijBtn form input[type=submit]
+#startingBtn form input[type=submit]
 {
     background-color: lightgreen;
     width: 200px;
